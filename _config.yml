@@ -13,7 +13,7 @@ presskit_download_link                    :                                     
 app_icon                                  : # assets/appicon.png                      # Automatically populates if not set and if iOS app ID is set.  Otherwise enter path to icon file manually.
 app_name                                  :                                           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
 app_price                                 :                                           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
-app_description                           : 让你不忘记任何一件小事
+app_description                           : 帮助你不忘记任何一件小事
 
 enable_smart_app_banner                   : true                                      # Set to true to show a smart app banner at top of page on mobile devices.
 
@@ -21,7 +21,7 @@ enable_smart_app_banner                   : true                                
 
 # Information About Yourself
 your_name                                 : Allen
-your_link                                 :
+your_link                                 : https://iofree.xyz
 your_city                                 :
 email_address                             : admin@iofree.xyz
 facebook_username                         :
@@ -40,7 +40,7 @@ features                                  :
     fontawesome_icon_name                 : sync
 
   - title                                 : 倒计时时钟
-    description                           : 您可以创建倒计时时钟，在倒计时结束时 App 会通知您。
+    description                           : 您可以创建倒计时时钟，在倒计时结束时 App 会通知您。支持任意时间间隔，支持专注模式。
     fontawesome_icon_name                 : clock
 
   - title                                 : 时间线提醒
