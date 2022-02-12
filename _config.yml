@@ -67,6 +67,7 @@ img  : # 展示 feature 下面的截图
   - url                                  : assets/img/4.png
   - url                                  : assets/img/5.png
   - url                                  : assets/img/6.png
+  - url                                  : assets/img/7.png
 
 # Theme Settings
 topbar_color                              : "#000000"
