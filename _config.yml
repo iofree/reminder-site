@@ -30,7 +30,7 @@ twitter_username                          : Allen_Xuxu
 github_username                           :
 youtube_username                          :
 
-picture_CDN                               : https://cdn.yecvip.cn/gh/iofree/reminder-site          # 图片 cdn 前缀
+picture_CDN                               : https://cdn.jsdelivr.net/gh/iofree/reminder-site          # 图片 cdn 前缀
 
 
 # Feature List                            Edit, add or remove features to be presented.
