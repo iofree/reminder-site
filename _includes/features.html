@@ -1,7 +1,13 @@
 <div class="features">
 
-    {% for feature in site.features %}
+    {% assign features_data = site.data.features %}
+    {% if page.lang == 'en' %}
+        {% assign features_i18n = site.t.en.features %}
+    {% else %}
+        {% assign features_i18n = site.t.zh.features %}
+    {% endif %}
 
+    {% for feature in site.features %}
     {% if feature.title %}
     <div class="feature">
         <div>
@@ -12,10 +18,24 @@
         </div>
         <div class="featureText">
             <h3>
-                {{ feature.title }}
+                {% case forloop.index %}
+                    {% when 1 %}{{ features_i18n.cycle_reminder.title }}
+                    {% when 2 %}{{ features_i18n.countdown_clock.title }}
+                    {% when 3 %}{{ features_i18n.timeline_reminder.title }}
+                    {% when 4 %}{{ features_i18n.clipboard_recognition.title }}
+                    {% when 5 %}{{ features_i18n.dark_light_mode.title }}
+                    {% else %}{{ feature.title }}
+                {% endcase %}
             </h3>
             <p>
-                {{ feature.description }}
+                {% case forloop.index %}
+                    {% when 1 %}{{ features_i18n.cycle_reminder.description }}
+                    {% when 2 %}{{ features_i18n.countdown_clock.description }}
+                    {% when 3 %}{{ features_i18n.timeline_reminder.description }}
+                    {% when 4 %}{{ features_i18n.clipboard_recognition.description }}
+                    {% when 5 %}{{ features_i18n.dark_light_mode.description }}
+                    {% else %}{{ feature.description }}
+                {% endcase %}
             </p>
         </div>
     </div>

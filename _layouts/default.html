@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="{% if page.lang %}{{ page.lang }}{% else %}{{ site.default_lang }}{% endif %}">
 
 {% include head.html %}
 
@@ -41,7 +41,7 @@
                 </div>
                 <div class="appNamePriceContainer">
                     <h1 class="appName">
-                        {{ site.app_name }}
+                        {% if page.lang == 'en' %}{{ site.t.en.site.title }}{% else %}{{ site.app_name }}{% endif %}
                     </h1>
                     <h2 class="appPrice">
                         {{ site.app_price }}
@@ -49,7 +49,7 @@
                 </div>
                 <div class="appDescriptionContainer">
                     <p class="appDescription">
-                        {{ site.app_description }}
+                        {% if page.lang == 'en' %}{{ site.t.en.site.description }}{% else %}{{ site.app_description }}{% endif %}
                     </p>
                 </div>
                 <div class="downloadButtonsContainer">

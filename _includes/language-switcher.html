@@ -1,0 +1,87 @@
+<div class="language-switcher">
+  <button id="language-toggle" class="language-btn">
+    <i class="fas fa-globe"></i>
+    <span id="current-lang">{{ site.t[site.lang].language.chinese }}</span>
+  </button>
+  <div id="language-dropdown" class="language-dropdown hidden">
+    <a href="#" onclick="switchLanguage('zh')" class="language-option" data-lang="zh">
+      {{ site.t.zh.language.chinese }}
+    </a>
+    <a href="#" onclick="switchLanguage('en')" class="language-option" data-lang="en">
+      {{ site.t.en.language.english }}
+    </a>
+  </div>
+</div>
+
+<script>
+// 语言切换功能
+function switchLanguage(lang) {
+  // 保存用户选择的语言
+  localStorage.setItem('preferred-language', lang);
+  
+  // 获取当前路径
+  const currentPath = window.location.pathname;
+  let newPath;
+  
+  if (lang === 'en') {
+    // 切换到英文
+    if (currentPath.startsWith('/en/')) {
+      newPath = currentPath;
+    } else if (currentPath === '/') {
+      newPath = '/en/';
+    } else {
+      newPath = '/en' + currentPath;
+    }
+  } else {
+    // 切换到中文
+    if (currentPath.startsWith('/en/')) {
+      newPath = currentPath.replace('/en', '') || '/';
+    } else {
+      newPath = currentPath;
+    }
+  }
+  
+  window.location.href = newPath;
+}
+
+// 页面加载时的语言检测和设置
+document.addEventListener('DOMContentLoaded', function() {
+  const languageToggle = document.getElementById('language-toggle');
+  const languageDropdown = document.getElementById('language-dropdown');
+  
+  // 切换下拉菜单显示/隐藏
+  languageToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    languageDropdown.classList.toggle('hidden');
+  });
+  
+  // 点击页面其他地方关闭下拉菜单
+  document.addEventListener('click', function(e) {
+    if (!languageToggle.contains(e.target) && !languageDropdown.contains(e.target)) {
+      languageDropdown.classList.add('hidden');
+    }
+  });
+  
+  // 自动语言检测（仅在用户没有手动选择过语言时）
+  const preferredLang = localStorage.getItem('preferred-language');
+  const currentPath = window.location.pathname;
+  
+  if (!preferredLang) {
+    // 检测浏览器语言
+    const browserLang = navigator.language || navigator.userLanguage;
+    const isChineseBrowser = browserLang.startsWith('zh');
+    const isOnEnglishPage = currentPath.startsWith('/en/');
+    
+    // 如果浏览器是中文但在英文页面，或浏览器是英文但在中文页面，则重定向
+    if (isChineseBrowser && isOnEnglishPage) {
+      const chinesePath = currentPath.replace('/en', '') || '/';
+      window.location.href = chinesePath;
+    } else if (!isChineseBrowser && !isOnEnglishPage && currentPath !== '/') {
+      const englishPath = '/en' + currentPath;
+      window.location.href = englishPath;
+    } else if (!isChineseBrowser && currentPath === '/') {
+      window.location.href = '/en/';
+    }
+  }
+});
+</script>

@@ -1,0 +1,35 @@
+# English translations
+site:
+  title: "Never Forget Reminder"
+  description: "Help you never forget any little thing"
+
+nav:
+  help: "Documentation"
+  privacy: "Privacy Policy"
+  terms: "Terms of Service"
+
+footer:
+  made_by: "Made by"
+  in: "in"
+
+features:
+  cycle_reminder:
+    title: "Recurring Reminders"
+    description: "You can set daily/weekly/monthly/yearly recurring reminders"
+  countdown_clock:
+    title: "Countdown Timer"
+    description: "You can create countdown timers, and the app will notify you when the countdown ends. Supports any time interval and focus mode."
+  timeline_reminder:
+    title: "Timeline Reminders"
+    description: "Future reminders are arranged in timeline order and notify you in time."
+  clipboard_recognition:
+    title: "Auto Time Recognition from Clipboard"
+    description: "When you enable clipboard reading permission in the app, we can automatically recognize time from your clipboard and auto-fill it."
+  dark_light_mode:
+    title: "Dark/Light Mode"
+    description: "Supports dark and light modes"
+
+language:
+  switch: "Switch Language"
+  chinese: "中文"
+  english: "English"
