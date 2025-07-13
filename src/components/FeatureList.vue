@@ -62,7 +62,6 @@ const getFeatureDescription = (index: number): string => {
   padding-left: 15px;
   padding-right: 15px;
   width: calc(100%/3);
-  )
 }
 
 .feature:nth-child(-n+3) {
