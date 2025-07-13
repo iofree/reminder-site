@@ -1,0 +1,54 @@
+<div class="features">
+
+    {% assign features_data = site.data.features %}
+    {% if page.lang == 'en' %}
+        {% assign features_i18n = site.t.en.features %}
+    {% else %}
+        {% assign features_i18n = site.t.zh.features %}
+    {% endif %}
+
+    {% for feature in site.features %}
+    {% if feature.title %}
+    <div class="feature">
+        <div>
+            <span class="fa-stack fa-1x">
+                <i class="iconBack fas fa-circle fa-stack-2x"></i>
+                <i class="iconTop fas fa-{{ feature.fontawesome_icon_name }} fa-stack-1x"></i>
+            </span>
+        </div>
+        <div class="featureText">
+            <h3>
+                {% case forloop.index %}
+                    {% when 1 %}{{ features_i18n.cycle_reminder.title }}
+                    {% when 2 %}{{ features_i18n.countdown_clock.title }}
+                    {% when 3 %}{{ features_i18n.timeline_reminder.title }}
+                    {% when 4 %}{{ features_i18n.clipboard_recognition.title }}
+                    {% when 5 %}{{ features_i18n.dark_light_mode.title }}
+                    {% else %}{{ feature.title }}
+                {% endcase %}
+            </h3>
+            <p>
+                {% case forloop.index %}
+                    {% when 1 %}{{ features_i18n.cycle_reminder.description }}
+                    {% when 2 %}{{ features_i18n.countdown_clock.description }}
+                    {% when 3 %}{{ features_i18n.timeline_reminder.description }}
+                    {% when 4 %}{{ features_i18n.clipboard_recognition.description }}
+                    {% when 5 %}{{ features_i18n.dark_light_mode.description }}
+                    {% else %}{{ feature.description }}
+                {% endcase %}
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+
+    <div class="images">
+        {% for i in site.img %}
+        {% if i.url %}
+        <img src="{{ site.picture_CDN }}/{{i.url}}" alt="" width="300px">
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
