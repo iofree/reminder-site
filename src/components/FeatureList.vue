@@ -4,7 +4,7 @@
       <div>
         <span class="fa-stack fa-1x">
           <i class="iconBack fas fa-circle fa-stack-2x"></i>
-          <i class="iconTop fas" :class="`fa-${feature.fontawesome_icon_name}`" class="fa-stack-1x"></i>
+          <i class="iconTop fas fa-stack-1x" :class="`fa-${feature.fontawesome_icon_name}`"></i>
         </span>
       </div>
       <div class="featureText">
@@ -62,7 +62,6 @@ const getFeatureDescription = (index: number): string => {
   padding-left: 15px;
   padding-right: 15px;
   width: calc(100%/3);
-  )
 }
 
 .feature:nth-child(-n+3) {
