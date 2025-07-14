@@ -21,13 +21,12 @@ import AppHeader from '@/components/AppHeader.vue'
 
 const languageStore = useLanguageStore()
 
-const markdownFile = computed(() => {
+const getMarkdownFile = () => {
   return languageStore.currentLanguage === 'en' 
     ? '/src/content/privacy-en.md'
     : '/src/content/privacy.md'
-})
+}
 
-const { content, loading, error } = useMarkdown(markdownFile.value)
 </script>
 
 <style scoped>
