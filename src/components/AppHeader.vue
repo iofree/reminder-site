@@ -20,9 +20,9 @@
     <LanguageSwitcher />
     <nav class="scroll">
       <ul>
-        <li><router-link to="/help" target="_self">{{ languageStore.t.nav.help }}</router-link></li>
-        <li><router-link to="/privacy" target="_self">{{ languageStore.t.nav.privacy }}</router-link></li>
-        <li><router-link to="/terms" target="_self">{{ languageStore.t.nav.terms }}</router-link></li>
+        <li><router-link :to="getLocalizedPath('/help')" target="_self">{{ languageStore.t.nav.help }}</router-link></li>
+        <li><router-link :to="getLocalizedPath('/privacy')" target="_self">{{ languageStore.t.nav.privacy }}</router-link></li>
+        <li><router-link :to="getLocalizedPath('/terms')" target="_self">{{ languageStore.t.nav.terms }}</router-link></li>
       </ul>
     </nav>
   </header>
@@ -32,8 +32,17 @@
 import { useLanguageStore } from '@/stores/language'
 import { siteConfig } from '@/config/site'
 import LanguageSwitcher from './LanguageSwitcher.vue'
+import { useRoute } from 'vue-router'
 
 const languageStore = useLanguageStore()
+const route = useRoute()
+
+const getLocalizedPath = (path: string) => {
+  if (languageStore.currentLanguage === 'en') {
+    return `/en${path}`
+  }
+  return path
+}
 </script>
 
 <style scoped>

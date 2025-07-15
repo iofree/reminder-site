@@ -47,9 +47,9 @@
     </div>
     
     <div class="footerLinks">
-      <router-link to="/help" target="_self">{{ languageStore.t.nav.help }}</router-link>
-      <router-link to="/privacy" target="_self">{{ languageStore.t.nav.privacy }}</router-link>
-      <router-link to="/terms" target="_self">{{ languageStore.t.nav.terms }}</router-link>
+      <router-link :to="getLocalizedPath('/help')" target="_self">{{ languageStore.t.nav.help }}</router-link>
+      <router-link :to="getLocalizedPath('/privacy')" target="_self">{{ languageStore.t.nav.privacy }}</router-link>
+      <router-link :to="getLocalizedPath('/terms')" target="_self">{{ languageStore.t.nav.terms }}</router-link>
     </div>
   </footer>
 </template>
@@ -59,6 +59,13 @@ import { useLanguageStore } from '@/stores/language'
 import { siteConfig } from '@/config/site'
 
 const languageStore = useLanguageStore()
+
+const getLocalizedPath = (path: string) => {
+  if (languageStore.currentLanguage === 'en') {
+    return `/en${path}`
+  }
+  return path
+}
 </script>
 
 <style scoped>

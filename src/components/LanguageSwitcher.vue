@@ -1,14 +1,17 @@
 <template>
   <div class="language-switcher">
-    <button @click="toggleDropdown" class="language-btn">
+    <button @click="toggleDropdown" class="language-btn" :class="{ active: showDropdown }">
       <i class="fas fa-globe"></i>
-      <span>{{ languageStore.t.language[languageStore.currentLanguage === 'zh' ? 'chinese' : 'english'] }}</span>
+      <span>{{ currentLanguageLabel }}</span>
+      <i class="fas fa-chevron-down dropdown-icon" :class="{ rotated: showDropdown }"></i>
     </button>
     <div v-show="showDropdown" class="language-dropdown">
       <a href="#" @click.prevent="switchLanguage('zh')" class="language-option">
+        <i class="fas fa-check" v-show="languageStore.currentLanguage === 'zh'"></i>
         {{ languageStore.t.language.chinese }}
       </a>
       <a href="#" @click.prevent="switchLanguage('en')" class="language-option">
+        <i class="fas fa-check" v-show="languageStore.currentLanguage === 'en'"></i>
         {{ languageStore.t.language.english }}
       </a>
     </div>
@@ -24,6 +27,10 @@ const languageStore = useLanguageStore()
 const router = useRouter()
 const showDropdown = ref(false)
 
+const currentLanguageLabel = computed(() => {
+  return languageStore.currentLanguage === 'zh' ? '中文' : 'English'
+})
+
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
 }
@@ -37,7 +44,7 @@ const switchLanguage = (lang: string) => {
   let newPath = ''
   
   if (lang === 'en') {
-    if (currentPath.startsWith('/en/')) {
+    if (currentPath.startsWith('/en')) {
       newPath = currentPath
     } else if (currentPath === '/') {
       newPath = '/en'
@@ -45,7 +52,7 @@ const switchLanguage = (lang: string) => {
       newPath = '/en' + currentPath
     }
   } else {
-    if (currentPath.startsWith('/en/')) {
+    if (currentPath.startsWith('/en')) {
       newPath = currentPath.replace('/en', '') || '/'
     } else {
       newPath = currentPath
@@ -92,6 +99,21 @@ onUnmounted(() => {
   gap: 6px;
   font-size: 1.4rem;
   transition: all 0.3s ease;
+  position: relative;
+}
+
+.language-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.dropdown-icon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg);
 }
 
 .language-btn:hover {
@@ -119,6 +141,14 @@ onUnmounted(() => {
   text-decoration: none;
   font-size: 1.4rem;
   transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-option i {
+  width: 16px;
+  color: #28a745;
 }
 
 .language-option:hover {
