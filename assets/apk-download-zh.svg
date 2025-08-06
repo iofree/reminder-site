@@ -15,5 +15,5 @@
   </g>
   
   <!-- Text (vertically centered with icon) -->
-  <text x="175" y="95" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="700" fill="white">Android APK</text>
+  <text x="175" y="95" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700" fill="white">安卓 APK</text>
 </svg>

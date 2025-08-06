@@ -63,8 +63,14 @@
                     {% endif %}
                     {% include get-apk-link.html %}
                     {% if apk_link_value and apk_link_value != "" %}
-                    <a class="apkLink" href="{{ apk_link_value }}" title="{% assign current_lang = page.lang | default: site.default_language %}{{ site.data.translations[current_lang].download_apk }}"><img class="apkDownload"
-                                                                                 src="{{ site.picture_CDN }}/assets/apk-download.svg"></a>
+                    {% assign current_lang = page.lang | default: site.default_language %}
+                    {% if current_lang == 'zh' %}
+                        {% assign apk_svg = 'assets/apk-download-zh.svg' %}
+                    {% else %}
+                        {% assign apk_svg = 'assets/apk-download.svg' %}
+                    {% endif %}
+                    <a class="apkLink" href="{{ apk_link_value }}" title="{{ site.data.translations[current_lang].download_apk }}"><img class="apkDownload"
+                                                                                 src="{{ site.picture_CDN }}/{{ apk_svg }}"></a>
                     {% endif %}
                     {% include get-appstore-link.html %}
                     <a class="appStoreLink" href="{{ appstore_link_value }}"><img class="appStore"
