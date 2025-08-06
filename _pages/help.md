@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 文档
+lang: zh
 include_in_header: true
 ---
 
@@ -45,6 +46,3 @@ include_in_header: true
 如果您在使用过程中遇到问题，或者有任何建议，请联系我们。
 
 - 邮件: [admin@iofree.xyz](mailto:admin@iofree.xyz)
-- QQ 群：[762894053](https://jq.qq.com/?_wv=1027&k=JS74kp2g)
-- Twitter: [Allen](https://twitter.com/Allen_Xuxu)
-- 微博: [顾_惜朝](https://weibo.com/u/5894049515)

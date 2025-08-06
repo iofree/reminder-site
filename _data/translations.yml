@@ -1,0 +1,18 @@
+# Common translations for UI elements
+zh:
+  made_by: "由"
+  made_in: "制作于"
+  press_kit: "媒体资料包"
+  download_apk: "安卓 APK"
+  current_language: "当前语言"
+  language_error: "语言切换出错"
+  unsupported_language: "不支持的语言"
+
+en:
+  made_by: "Made by"
+  made_in: "in"
+  press_kit: "Press Kit"
+  download_apk: "Android APK"
+  current_language: "Language"
+  language_error: "Language switching error"
+  unsupported_language: "Unsupported language"

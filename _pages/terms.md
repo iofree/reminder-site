@@ -1,7 +1,8 @@
 ---
 layout: page
 title: 使用条款
-include_in_header: false
+lang: zh
+include_in_header: true
 ---
 
 # 订阅服务协议

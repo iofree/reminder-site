@@ -3,7 +3,8 @@
 ---
 
 <!DOCTYPE html>
-<html lang="en-us">
+{% assign current_language = page.lang | default: site.default_language %}
+<html lang="{% if current_language == 'zh' %}zh-CN{% else %}{{ current_language }}{% endif %}">
 
 {% include head.html %}
 

@@ -1,0 +1,338 @@
+<!-- Language Switcher with JavaScript fallback -->
+<div class="language-switcher">
+    <!-- JavaScript-enabled version -->
+    <div class="language-dropdown js-enabled" id="languageDropdown">
+        <button class="language-button" onclick="toggleLanguageDropdown()" type="button">
+            <span class="current-language">
+                {% assign current_language = page.lang | default: site.default_language %}
+                {% if site.language_names[current_language] %}
+                    {{ site.language_names[current_language] }}
+                {% else %}
+                    {{ current_language | upcase }}
+                {% endif %}
+            </span>
+            <span class="language-arrow">▼</span>
+        </button>
+        <div class="language-options" id="languageOptions">
+            {% for lang in site.languages %}
+                {% if lang != current_language %}
+                    <a href="#" class="language-option" onclick="selectLanguage('{{ lang }}'); return false;">
+                        {% if site.language_names[lang] %}
+                            {{ site.language_names[lang] }}
+                        {% else %}
+                            {{ lang | upcase }}
+                        {% endif %}
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- No-JavaScript fallback version -->
+    <noscript>
+        <div class="language-links no-js-fallback">
+            <span class="current-language-label">
+                {% include get-translation.html key="current_language" fallback_text="Language" %}:
+                {% if site.language_names[current_language] %}
+                    {{ site.language_names[current_language] }}
+                {% else %}
+                    {{ current_language | upcase }}
+                {% endif %}
+            </span>
+            <div class="language-options-static">
+                {% for lang in site.languages %}
+                    {% if lang != current_language %}
+                        {% assign lang_url = "" %}
+                        {% if lang == site.default_language %}
+                            {% assign lang_url = "/" %}
+                        {% else %}
+                            {% assign lang_url = "/" | append: lang | append: "/" %}
+                        {% endif %}
+                        
+                        <a href="{{ lang_url }}" class="language-option-static">
+                            {% if site.language_names[lang] %}
+                                {{ site.language_names[lang] }}
+                            {% else %}
+                                {{ lang | upcase }}
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </noscript>
+</div>
+
+<script>
+// Language switcher dropdown functionality with enhanced error handling
+function toggleLanguageDropdown() {
+    try {
+        const dropdown = document.getElementById('languageDropdown');
+        const options = document.getElementById('languageOptions');
+        
+        if (!dropdown || !options) {
+            console.warn('Language dropdown elements not found');
+            return;
+        }
+        
+        dropdown.classList.toggle('show');
+        options.classList.toggle('show');
+        
+        // Position dropdown using fixed positioning
+        if (options.classList.contains('show')) {
+            const button = dropdown.querySelector('.language-button');
+            const buttonRect = button.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const isMobile = viewportWidth <= 768;
+            
+            // Calculate dropdown width based on device
+            const dropdownWidth = isMobile ? 100 : 140;
+            
+            // Calculate initial position below the button
+            let top = buttonRect.bottom + 8;
+            let left = buttonRect.right - dropdownWidth; // Align right edge with button
+            
+            // For mobile, ensure better positioning
+            if (isMobile) {
+                left = Math.max(10, Math.min(left, viewportWidth - dropdownWidth - 10));
+            } else {
+                // Ensure dropdown doesn't go beyond viewport edges
+                if (left < 10) {
+                    left = 10;
+                }
+                if (left + dropdownWidth > viewportWidth - 10) {
+                    left = viewportWidth - dropdownWidth - 10;
+                }
+            }
+            
+            // If dropdown would go below viewport, show it above the button
+            if (top + 100 > viewportHeight) {
+                top = buttonRect.top - 8;
+                options.style.transform = 'translateY(-100%) scale(1)';
+            } else {
+                options.style.transform = 'translateY(0) scale(1)';
+            }
+            
+            options.style.top = top + 'px';
+            options.style.left = left + 'px';
+        } else {
+            // Reset position when closing
+            options.style.top = '';
+            options.style.left = '';
+            options.style.transform = '';
+        }
+    } catch (error) {
+        console.error('Error toggling language dropdown:', error);
+    }
+}
+
+function selectLanguage(language) {
+    try {
+        // Validate language parameter
+        if (!language || typeof language !== 'string') {
+            console.error('Invalid language parameter:', language);
+            return;
+        }
+        
+        // Close dropdown first
+        const dropdown = document.getElementById('languageDropdown');
+        const options = document.getElementById('languageOptions');
+        if (dropdown && options) {
+            dropdown.classList.remove('show');
+            options.classList.remove('show');
+        }
+        
+        // Use enhanced language manager with preference memory
+        if (window.languageManager && typeof window.languageManager.selectLanguage === 'function') {
+            // Pass true to indicate this is a user selection (not auto-detection)
+            window.languageManager.selectLanguage(language, true);
+        } else {
+            // Fallback implementation with preference saving
+            const supportedLanguages = ['zh', 'en'];
+            
+            // Validate language is supported
+            if (!supportedLanguages.includes(language)) {
+                console.warn('Unsupported language selected:', language, 'Using default: zh');
+                language = 'zh';
+            }
+            
+            const currentPath = window.location.pathname;
+            const pathSegments = currentPath.split('/').filter(segment => segment);
+            
+            // Remove current language from path if present
+            if (supportedLanguages.includes(pathSegments[0])) {
+                pathSegments.shift();
+            }
+            
+            // Build new path
+            let newPath;
+            if (language === 'zh') {
+                newPath = '/' + pathSegments.join('/');
+            } else {
+                newPath = '/' + language + '/' + pathSegments.join('/');
+            }
+            
+            // Ensure path ends correctly
+            if (newPath !== '/' && newPath.endsWith('/')) {
+                newPath = newPath.slice(0, -1);
+            }
+            
+            // Save preference and mark as manually selected
+            try {
+                if (typeof Storage !== 'undefined' && localStorage) {
+                    localStorage.setItem('preferred_language', language);
+                    localStorage.setItem('language_manually_selected', 'true');
+                }
+            } catch (storageError) {
+                console.warn('Could not save language preference:', storageError);
+            }
+            
+            // Perform redirect
+            window.location.href = newPath;
+        }
+    } catch (error) {
+        console.error('Error in language selection:', error);
+        // Last resort: reload page with language parameter
+        try {
+            const url = new URL(window.location);
+            url.searchParams.set('lang', language);
+            window.location.href = url.toString();
+        } catch (urlError) {
+            console.error('Error in fallback redirect:', urlError);
+        }
+    }
+}
+
+// Close dropdown when clicking outside with error handling
+document.addEventListener('click', function(event) {
+    try {
+        const dropdown = document.getElementById('languageDropdown');
+        if (dropdown && !dropdown.contains(event.target)) {
+            const options = document.getElementById('languageOptions');
+            if (options) {
+                dropdown.classList.remove('show');
+                options.classList.remove('show');
+            }
+        }
+    } catch (error) {
+        console.error('Error handling dropdown click outside:', error);
+    }
+});
+
+// Mobile menu functionality
+function toggleMobileMenu() {
+    try {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuButton = document.querySelector('.mobile-menu-button');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        
+        if (mobileMenu && menuButton) {
+            const isOpen = mobileMenu.classList.contains('show');
+            
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                mobileMenu.classList.add('show');
+                menuButton.classList.add('active');
+                if (overlay) overlay.classList.add('show');
+                
+                // Prevent body scroll when menu is open
+                document.body.style.overflow = 'hidden';
+            }
+        }
+    } catch (error) {
+        console.error('Error toggling mobile menu:', error);
+    }
+}
+
+function closeMobileMenu() {
+    try {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuButton = document.querySelector('.mobile-menu-button');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        
+        if (mobileMenu && menuButton) {
+            mobileMenu.classList.remove('show');
+            menuButton.classList.remove('active');
+            if (overlay) overlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    } catch (error) {
+        console.error('Error closing mobile menu:', error);
+    }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    try {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuButton = document.querySelector('.mobile-menu-button');
+        const nav = document.querySelector('nav');
+        
+        if (mobileMenu && menuButton && nav && 
+            !nav.contains(event.target) && 
+            mobileMenu.classList.contains('show')) {
+            closeMobileMenu();
+        }
+    } catch (error) {
+        console.error('Error handling mobile menu click outside:', error);
+    }
+});
+
+// Close mobile menu on window resize
+window.addEventListener('resize', function() {
+    try {
+        if (window.innerWidth > 768) {
+            closeMobileMenu();
+        }
+    } catch (error) {
+        console.error('Error handling mobile menu resize:', error);
+    }
+});
+
+// Keyboard navigation support
+document.addEventListener('keydown', function(event) {
+    try {
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        // Close mobile menu on Escape key
+        if (event.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('show')) {
+            closeMobileMenu();
+            event.preventDefault();
+        }
+        
+        // Close language dropdown on Escape key
+        const languageDropdown = document.getElementById('languageDropdown');
+        if (event.key === 'Escape' && languageDropdown && languageDropdown.classList.contains('show')) {
+            languageDropdown.classList.remove('show');
+            document.getElementById('languageOptions').classList.remove('show');
+            event.preventDefault();
+        }
+    } catch (error) {
+        console.error('Error handling keyboard navigation:', error);
+    }
+});
+
+// Improve touch interactions on mobile
+if ('ontouchstart' in window) {
+    document.addEventListener('touchstart', function() {}, { passive: true });
+}
+
+// Hide no-JS fallback when JavaScript is available
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const noJsFallback = document.querySelector('.no-js-fallback');
+        if (noJsFallback) {
+            noJsFallback.style.display = 'none';
+        }
+        
+        const jsEnabled = document.querySelector('.js-enabled');
+        if (jsEnabled) {
+            jsEnabled.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error setting up language switcher display:', error);
+    }
+});
+</script>

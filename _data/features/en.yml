@@ -1,0 +1,36 @@
+# English feature descriptions
+features:
+  - title: "Recurring Reminders"
+    description: "Set daily, weekly, monthly, or yearly recurring reminders to never forget important tasks"
+    fontawesome_icon_name: "sync"
+    keywords: "recurring reminders,repeat reminders,daily reminders,weekly reminders,periodic notifications"
+
+  - title: "Countdown Timer"
+    description: "Create countdown timers with notifications when time expires. Supports any time interval and focus mode for productivity."
+    fontawesome_icon_name: "clock"
+    keywords: "countdown timer,focus mode,pomodoro timer,time management,productivity timer"
+
+  - title: "Timeline Reminders"
+    description: "Future reminders organized in a clear timeline view, ensuring you never miss important events."
+    fontawesome_icon_name: "calendar-alt"
+    keywords: "timeline reminders,future reminders,schedule management,time planning"
+
+  - title: "Auto Time Recognition from Clipboard"
+    description: "Automatically recognize and parse time information from your clipboard for quick reminder creation."
+    fontawesome_icon_name: "magic"
+    keywords: "clipboard recognition,auto-fill,smart input,time parsing,intelligent detection"
+
+  - title: "Dark/Light Mode"
+    description: "Supports both dark and light themes to match your preference and environment"
+    fontawesome_icon_name: "adjust"
+    keywords: "dark mode,light mode,theme switching,eye protection,UI themes"
+
+  - title: "Lunar Calendar Support"
+    description: "Support for lunar calendar dates and traditional Chinese festivals"
+    fontawesome_icon_name: "calendar-check"
+    keywords: "lunar calendar,Chinese calendar,traditional festivals,cultural events"
+
+  - title: "Widget Support"
+    description: "iOS home screen widgets for quick access to upcoming reminders"
+    fontawesome_icon_name: "th-large"
+    keywords: "iOS widgets,home screen widgets,quick view,widget support"

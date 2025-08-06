@@ -1,0 +1,36 @@
+# Chinese feature descriptions
+features:
+  - title: "循环提醒"
+    description: "您可以设置每天/每周/每月/每年循环提醒，永不遗忘重要事项"
+    fontawesome_icon_name: "sync"
+    keywords: "循环提醒,重复提醒,定期提醒,每日提醒,每周提醒"
+
+  - title: "倒计时时钟"
+    description: "您可以创建倒计时时钟，在倒计时结束时 App 会通知您。支持任意时间间隔，支持专注模式。"
+    fontawesome_icon_name: "clock"
+    keywords: "倒计时,计时器,专注模式,番茄钟,时间管理"
+
+  - title: "时间线提醒"
+    description: "将来需要提醒的事项按时间线排列，清晰展示，及时通知您。"
+    fontawesome_icon_name: "calendar-alt"
+    keywords: "时间线,未来提醒,日程管理,时间规划"
+
+  - title: "自动从剪切板识别时间"
+    description: "当您在 App 中打开了读取剪切板的权限，我们可以自动从您的剪切板识别时间，自动带入。"
+    fontawesome_icon_name: "magic"
+    keywords: "剪切板,自动识别,智能输入,时间解析"
+
+  - title: "暗/亮模式"
+    description: "支持暗黑模式和明亮模式，适应不同使用环境"
+    fontawesome_icon_name: "adjust"
+    keywords: "暗黑模式,明亮模式,护眼模式,主题切换"
+
+  - title: "农历提醒"
+    description: "支持农历日期提醒，传统节日和重要日子不再错过"
+    fontawesome_icon_name: "calendar-check"
+    keywords: "农历,传统节日,中国节日,农历提醒"
+
+  - title: "小组件支持"
+    description: "iOS 桌面小组件，快速查看即将到来的提醒事项"
+    fontawesome_icon_name: "th-large"
+    keywords: "小组件,桌面组件,快速查看,iOS组件"

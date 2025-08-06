@@ -1,0 +1,18 @@
+{% comment %}
+Generate canonical URL for SEO
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign canonical_url = site.url %}
+
+{% if page.url == '/' or page.url == '/index.html' %}
+  {% if current_lang != site.default_language %}
+    {% assign canonical_url = canonical_url | append: '/' | append: current_lang | append: '/' %}
+  {% else %}
+    {% assign canonical_url = canonical_url | append: '/' %}
+  {% endif %}
+{% else %}
+  {% assign canonical_url = canonical_url | append: page.url %}
+{% endif %}
+
+<link rel="canonical" href="{{ canonical_url }}" />

@@ -1,5 +1,64 @@
 #page title
-page_title                                : 不忘提醒                                          # Automatically populates with app name if not set and if iOS app ID is set. Otherwise enter manually.
+page_title                                : Never Forget Reminder                                          # Automatically populates with app name if not set and if iOS app ID is set. Otherwise enter manually.
+
+# Multilingual Configuration
+languages                                 : ["zh", "en"]
+default_language                          : "zh"
+language_names                            :
+  zh                                      : "中文"
+  en                                      : "English"
+
+# SEO Configuration
+url                                       : "https://reminder.iofree.xyz"  # Update with your actual domain
+baseurl                                   : ""
+
+# SEO Meta Tags
+title                                     : "不忘提醒 - Never Forget Reminder"
+description                               : "功能强大的iOS提醒应用，支持循环提醒、倒计时、时间线提醒。Powerful iOS reminder app with recurring reminders, countdown timers, and timeline reminders."
+keywords                                  : "提醒,reminder,iOS,app,循环提醒,倒计时,时间线,recurring,countdown,timeline,productivity,生产力"
+author                                    : "Allen"
+
+# Social Media
+twitter:
+  username                                : Allen_Xuxu
+  card                                    : summary_large_image
+
+# Facebook/Open Graph
+facebook:
+  app_id                                  : # Add your Facebook App ID if you have one
+
+# Google Analytics (add your tracking ID)
+google_analytics                          : # Add your GA tracking ID
+
+# Search Engine Verification
+google_site_verification                  : # Add your verification code
+bing_site_verification                    : # Add your Bing verification code
+baidu_site_verification                   : # Add your Baidu verification code (for Chinese SEO)
+
+# Additional SEO settings
+locale                                    : "zh_CN"
+timezone                                  : "Asia/Shanghai"
+
+# Multilingual App Store Links
+appstore_links                            :
+  zh                                      : https://apps.apple.com/cn/app/%E4%B8%8D%E5%BF%98%E6%8F%90%E9%86%92-%E9%87%8D%E5%A4%8D%E6%8F%90%E9%86%92-%E6%9C%AA%E6%9D%A5%E6%8F%90%E9%86%92-%E5%AE%9A%E6%97%B6%E5%99%A8/id1600249479?uo=4
+  en                                      : https://apps.apple.com/us/app/never-forget-reminder-repeat-future-timer/id1600249479?uo=4
+
+# Multilingual APK Download Links (optional - only shows if configured)
+apk_links                                 :
+  zh                                      :          # Enter APK download URL for Chinese users
+  en                                      :          # Enter APK download URL for English users
+
+# Multilingual App Info
+app_info                                  :
+  zh                                      :
+    name                                  : 不忘提醒 - 重复提醒、未来提醒、定时器
+    description                           : 帮助你不忘记任何一件小事
+    price                                 : 免费
+  en                                      :
+    name                                  : Never Forget Reminder - Repeat, Future, Timer
+    description                           : Help you never forget anything
+    price                                 : Free
 
 # App Info
 ios_app_id                                : 1600249479                                # Required. Enter iOS app ID to automatically populate name, price and icons (e.g. 718043190).
@@ -7,13 +66,14 @@ ios_app_country                           : cn                                  
 
 appstore_link                             : https://apps.apple.com/cn/app/%E4%B8%8D%E5%BF%98%E6%8F%90%E9%86%92-%E9%87%8D%E5%A4%8D%E6%8F%90%E9%86%92-%E6%9C%AA%E6%9D%A5%E6%8F%90%E9%86%92-%E5%AE%9A%E6%97%B6%E5%99%A8/id1600249479?uo=4                                          # Automatically populates if not set and if iOS app ID is set. Otherwise enter manually.
 playstore_link                            :                                           # Enter Google Play Store URL.
+apk_link                                  :                                           # Enter APK download URL (fallback if multilingual links not set).
 presskit_download_link                    :                                           # Enter a link to downloadable file or (e.g. public Dropbox link to a .zip file).
                                                                                       # Or upload your press kit file to assets and set path accordingly (e.g. "assets/your_press_kit.zip").
 
 app_icon                                  : assets/logo.jpeg                     # Automatically populates if not set and if iOS app ID is set.  Otherwise enter path to icon file manually.
-app_name                                  : 不忘提醒 - 重复提醒、未来提醒、定时器           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
-app_price                                 : 免费                                          # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
-app_description                           : 帮助你不忘记任何一件小事
+app_name                                  : Never Forget Reminder - Repeat, Future, Timer           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_price                                 : Free                                          # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_description                           : Help you never forget anything
 
 enable_smart_app_banner                   : true                                      # Set to true to show a smart app banner at top of page on mobile devices.
 
@@ -21,7 +81,7 @@ enable_smart_app_banner                   : true                                
 
 # Information About Yourself
 your_name                                 : Allen
-your_link                                 : https://iofree.xyz
+your_link                                 :
 your_city                                 :
 email_address                             : admin@iofree.xyz
 facebook_username                         :
@@ -33,32 +93,10 @@ youtube_username                          :
 #picture_CDN                               : https://cdn.jsdelivr.net/gh/iofree/reminder-site          # 图片 cdn 前缀
 
 
-# Feature List                            Edit, add or remove features to be presented.
-features                                  :
-
-  - title                                 : 循环提醒
-    description                           : 您可以设置每天/每周/每月/每年循环提醒
-    fontawesome_icon_name                 : sync
-
-  - title                                 : 倒计时时钟
-    description                           : 您可以创建倒计时时钟，在倒计时结束时 App 会通知您。支持任意时间间隔，支持专注模式。
-    fontawesome_icon_name                 : clock
-
-  - title                                 : 时间线提醒
-    description                           : 将来为了需要提醒的事，按时间线排列，并及时通知您。
-    fontawesome_icon_name                 : calendar-alt
-
-  - title                                 : 自动从剪切板识别时间
-    description                           : 当您在 App 中打开了读取剪切板的权限，我们可以自动从您的剪切板识别时间，自动带入。
-    fontawesome_icon_name                 : magic
-
-  - title                                 : 暗/亮模式
-    description                           : 支持暗黑，明亮模式
-    fontawesome_icon_name                 : adjust
-
-  - title                                 : # New Feature Title
-    description                           : # New Feature Description
-    fontawesome_icon_name                 : # Enter Font Awesome icon name (e.g. star). Find icons on fontawesome.com/icons.
+# Feature List - Now using _data/features/ for multilingual support
+# Legacy features configuration removed - features are now loaded from:
+# - _data/features/zh.yml (Chinese)
+# - _data/features/en.yml (English)
 
 img  : # 展示 feature 下面的截图
   - url                                  : assets/img/1.png
@@ -132,3 +170,33 @@ collections:
 
 # Markdown rendering
 markdown: kramdown
+
+# Performance optimizations
+incremental: true
+profile: true
+strict_front_matter: true
+
+# Plugin configuration
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Build settings
+future: false
+show_drafts: false
+unpublished: false
+
+# Liquid options
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
+
+# Compression
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false

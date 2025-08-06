@@ -1,7 +1,8 @@
 ---
 layout: page
 title: 隐私政策
-include_in_header: false
+lang: zh
+include_in_header: true
 ---
 
 # 产品隐私政策与使用条款

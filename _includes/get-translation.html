@@ -1,0 +1,53 @@
+<!-- Get translation with enhanced fallback mechanism -->
+<!-- Parameters: key, lang (optional), fallback_text (optional) -->
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign translation_lang = include.lang | default: current_lang %}
+{% assign translation_key = include.key %}
+{% assign fallback_text = include.fallback_text %}
+
+<!-- Validate language is supported -->
+{% assign supported_languages = site.languages | default: "zh,en" | split: "," %}
+{% assign is_supported_lang = false %}
+{% for lang in supported_languages %}
+  {% if lang == translation_lang %}
+    {% assign is_supported_lang = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<!-- Use default language if current language is not supported -->
+{% unless is_supported_lang %}
+  {% assign translation_lang = site.default_language %}
+{% endunless %}
+
+<!-- Try to get translation from main translations file -->
+{% assign translated_value = site.data.translations[translation_lang][translation_key] %}
+
+<!-- Check if translation is empty or null -->
+{% if translated_value == "" or translated_value == nil %}
+  {% assign translated_value = null %}
+{% endif %}
+
+<!-- Fallback to default language if translation not found -->
+{% unless translated_value %}
+  {% assign translated_value = site.data.translations[site.default_language][translation_key] %}
+  {% if translated_value == "" or translated_value == nil %}
+    {% assign translated_value = null %}
+  {% endif %}
+{% endunless %}
+
+<!-- Use custom fallback text if provided -->
+{% unless translated_value %}
+  {% if fallback_text %}
+    {% assign translated_value = fallback_text %}
+  {% endif %}
+{% endunless %}
+
+<!-- Final fallback to key name if no translation found -->
+{% unless translated_value %}
+  {% assign translated_value = translation_key %}
+  <!-- Log missing translation in development -->
+  {% if jekyll.environment == "development" %}
+    <!-- Development warning: Missing translation for {{ translation_key }} in {{ translation_lang }} -->
+  {% endif %}
+{% endunless %}
