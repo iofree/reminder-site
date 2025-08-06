@@ -1,0 +1,24 @@
+<!-- Get app info with enhanced fallback mechanism -->
+<!-- Parameters: info_key, lang (optional), fallback_text (optional) -->
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign info_lang = include.lang | default: current_lang %}
+{% assign info_key = include.info_key %}
+
+<!-- Try to get app info from multilingual config first -->
+{% if site.app_info[info_lang] and site.app_info[info_lang][info_key] %}
+  {% assign app_info_value = site.app_info[info_lang][info_key] %}
+{% elsif site.app_info[site.default_language] and site.app_info[site.default_language][info_key] %}
+  {% assign app_info_value = site.app_info[site.default_language][info_key] %}
+{% else %}
+  <!-- Fallback to legacy site config -->
+  {% case info_key %}
+    {% when "name" %}
+      {% assign app_info_value = site.app_name %}
+    {% when "description" %}
+      {% assign app_info_value = site.app_description %}
+    {% when "price" %}
+      {% assign app_info_value = site.app_price %}
+    {% else %}
+      {% assign app_info_value = info_key %}
+  {% endcase %}
+{% endif %}

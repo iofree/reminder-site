@@ -1,0 +1,76 @@
+<!-- Language Error Handler -->
+<!-- This include provides comprehensive error handling for language-related operations -->
+<!-- Parameters: error_type, fallback_content, show_warning (optional) -->
+
+{% assign error_type = include.error_type | default: "general" %}
+{% assign fallback_content = include.fallback_content %}
+{% assign show_warning = include.show_warning | default: false %}
+{% assign current_lang = page.lang | default: site.default_language %}
+
+<!-- Validate current language is supported -->
+{% assign supported_languages = site.languages | default: "zh,en" | split: "," %}
+{% assign is_current_lang_supported = false %}
+{% for lang in supported_languages %}
+  {% if lang == current_lang %}
+    {% assign is_current_lang_supported = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<!-- If current language is not supported, use default -->
+{% unless is_current_lang_supported %}
+  {% assign current_lang = site.default_language %}
+  {% if show_warning %}
+    <!-- Warning: Unsupported language detected, falling back to {{ site.default_language }} -->
+  {% endif %}
+{% endunless %}
+
+<!-- Handle different error types -->
+{% case error_type %}
+  {% when "missing_translation" %}
+    {% if fallback_content %}
+      {{ fallback_content }}
+    {% else %}
+      {% include get-translation.html key="language_error" %}
+      {{ translated_value }}
+    {% endif %}
+    
+  {% when "unsupported_language" %}
+    {% if fallback_content %}
+      {{ fallback_content }}
+    {% else %}
+      {% include get-translation.html key="unsupported_language" %}
+      {{ translated_value }}
+    {% endif %}
+    
+  {% when "missing_app_info" %}
+    {% if fallback_content %}
+      {{ fallback_content }}
+    {% else %}
+      {% assign app_name = site.app_name | default: "App" %}
+      {{ app_name }}
+    {% endif %}
+    
+  {% else %}
+    <!-- General error fallback -->
+    {% if fallback_content %}
+      {{ fallback_content }}
+    {% else %}
+      {% include get-translation.html key="language_error" %}
+      {{ translated_value }}
+    {% endif %}
+{% endcase %}
+
+<!-- Development mode warnings -->
+{% if jekyll.environment == "development" and show_warning %}
+  <script>
+    console.warn('Language error handled:', {
+      error_type: '{{ error_type }}',
+      current_lang: '{{ current_lang }}',
+      page_lang: '{{ page.lang }}',
+      default_lang: '{{ site.default_language }}',
+      supported_languages: {{ site.languages | jsonify }},
+      fallback_used: {{ fallback_content | jsonify }}
+    });
+  </script>
+{% endif %}

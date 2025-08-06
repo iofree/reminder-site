@@ -1,0 +1,22 @@
+help:
+  title: "Documentation"
+  content: |
+    Never Forget Reminder is a powerful memo app that provides rich reminder functions and automatic date-time recognition to help users manage time more efficiently.
+
+    The app supports multiple reminder methods, including recurring reminders, future reminders, countdown reminders, and lunar calendar reminders.
+
+    Users can set reminder times according to their needs, such as daily, monthly, yearly, or specific days of the week. Chinese people often need to celebrate lunar birthdays, so this app also supports lunar birthday reminders.
+
+privacy:
+  title: "Privacy Policy"
+  content: |
+    This application respects and protects the personal privacy rights of all users who use the service. In order to provide you with more accurate and personalized services, this application will use and disclose your personal information in accordance with the provisions of this privacy policy.
+
+    This application will treat this information with a high degree of diligence and prudence. Except as otherwise provided in this privacy policy, this application will not disclose this information to the outside world or provide it to third parties without your prior permission.
+
+terms:
+  title: "Terms of Service"
+  content: |
+    This rule is regarded as a supplementary agreement to the "Member Service Agreement" and is an integral part of it, forming a unified whole with it. If there is a conflict between this rule and the "Member Service Agreement", this rule shall prevail.
+
+    If you need to use the VIP auto-renewal service, you need to agree to this rule. VIP has two subscription options to choose from: 1-month auto-renewal and 12-month auto-renewal.

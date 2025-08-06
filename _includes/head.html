@@ -4,8 +4,40 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<base target="_blank">
 
-	<title class="pageTitle">{{ site.page_title }}</title>
-	<meta name="description" content="{{ site.app_description }}">
+	{% assign current_lang = page.lang | default: site.default_language %}
+	<title class="pageTitle">
+		{% if page.title %}
+			{{ page.title }} - {% if site.app_info[current_lang] %}{{ site.app_info[current_lang].name }}{% else %}{{ site.page_title }}{% endif %}
+		{% elsif site.app_info[current_lang] %}
+			{{ site.app_info[current_lang].name }}
+		{% else %}
+			{{ site.page_title }}
+		{% endif %}
+	</title>
+	<meta name="description" content="
+		{% if page.description %}
+			{{ page.description }}
+		{% elsif site.app_info[current_lang] %}
+			{{ site.app_info[current_lang].description }}
+		{% else %}
+			{{ site.app_description }}
+		{% endif %}
+	">
+	
+	<!-- SEO Keywords -->
+	<meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}">
+	<meta name="author" content="{{ site.author }}">
+	<meta name="robots" content="index, follow">
+	
+	<!-- Language and Region -->
+	<meta name="language" content="{{ current_lang }}">
+	<meta http-equiv="content-language" content="{{ current_lang }}">
+	
+	<!-- Mobile Optimization -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].name }}{% else %}{{ site.app_name }}{% endif %}">
 
 	<link rel="shortcut icon" href="{{ site.picture_CDN }}/{{ site.app_icon }}">
 
@@ -14,6 +46,157 @@
 		<meta name="apple-itunes-app" content="app-id={{ site.ios_app_id }}">
 	{% endif %}
 
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<!-- Preload critical resources -->
+	<link rel="preload" href="{{ '/main.css' | relative_url }}" as="style">
+	<link rel="preload" href="{{ '/assets/js/language-manager.js' | relative_url }}" as="script">
+	
+	<!-- Load FontAwesome asynchronously -->
+	<link rel="preload" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<noscript><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"></noscript>
+	
 	<link rel="stylesheet" href="{{ '/main.css' | relative_url }}">
+	<script src="{{ '/assets/js/language-manager.js' | relative_url }}" defer></script>
+	
+	<!-- Hreflang tags for SEO -->
+	{% assign current_lang = page.lang | default: site.default_language %}
+	{% assign base_url = page.url %}
+	{% if page.lang and page.lang != site.default_language %}
+		{% assign base_url = page.url | remove_first: '/' | remove_first: page.lang %}
+		{% if base_url == '' %}
+			{% assign base_url = '/' %}
+		{% endif %}
+	{% endif %}
+	
+	{% for lang in site.languages %}
+		{% if lang == site.default_language %}
+			<link rel="alternate" hreflang="{{ lang }}" href="{{ site.url }}{{ base_url }}" />
+		{% else %}
+			<link rel="alternate" hreflang="{{ lang }}" href="{{ site.url }}/{{ lang }}{{ base_url }}" />
+		{% endif %}
+	{% endfor %}
+	<link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ base_url }}" />
+
+	<!-- Canonical URL -->
+	{% include canonical-url.html %}
+
+
+
+	<!-- Structured Data (JSON-LD) -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareApplication",
+		"name": "{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].name }}{% else %}{{ site.app_name }}{% endif %}",
+		"description": "{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].description }}{% else %}{{ site.app_description }}{% endif %}",
+		"applicationCategory": "ProductivityApplication",
+		"operatingSystem": "iOS",
+		"datePublished": "2021-01-01",
+		"dateModified": "{{ site.time | date: '%Y-%m-%d' }}",
+		"inLanguage": ["zh-CN", "en-US"],
+		"keywords": "{{ site.keywords }}",
+		"offers": {
+			"@type": "Offer",
+			"price": "0",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.5",
+			"ratingCount": "100",
+			"bestRating": "5",
+			"worstRating": "1"
+		},
+		"author": {
+			"@type": "Person",
+			"name": "{{ site.your_name }}",
+			"email": "{{ site.email_address }}"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "{{ site.your_name }}",
+			"email": "{{ site.email_address }}"
+		},
+		"url": "{{ site.url }}{% if current_lang != site.default_language %}/{{ current_lang }}{% endif %}{{ page.url }}",
+		"downloadUrl": "{% if site.appstore_links[current_lang] %}{{ site.appstore_links[current_lang] }}{% else %}{{ site.appstore_link }}{% endif %}",
+		"screenshot": [
+			{% for img in site.img %}
+				"{{ site.url }}/{{ img.url }}"{% unless forloop.last %},{% endunless %}
+			{% endfor %}
+		],
+		"featureList": [
+			{% assign features_data = site.data.features[current_lang].features %}
+			{% for feature in features_data %}
+				"{{ feature.title }}: {{ feature.description }}"{% unless forloop.last %},{% endunless %}
+			{% endfor %}
+		]
+	}
+	</script>
+	
+	<!-- Website Structured Data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"name": "{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].name }}{% else %}{{ site.app_name }}{% endif %}",
+		"url": "{{ site.url }}",
+		"potentialAction": {
+			"@type": "SearchAction",
+			"target": "{{ site.url }}/search?q={search_term_string}",
+			"query-input": "required name=search_term_string"
+		},
+		"inLanguage": ["zh-CN", "en-US"],
+		"author": {
+			"@type": "Person",
+			"name": "{{ site.your_name }}"
+		}
+	}
+	</script>
+
+	<!-- Open Graph Meta Tags -->
+	<meta property="og:title" content="{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].name }}{% else %}{{ site.app_name }}{% endif %}" />
+	<meta property="og:description" content="{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].description }}{% else %}{{ site.app_description }}{% endif %}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="{{ site.url }}{% if current_lang != site.default_language %}/{{ current_lang }}{% endif %}{{ page.url }}" />
+	<meta property="og:image" content="{{ site.url }}/{{ site.app_icon }}" />
+	<meta property="og:locale" content="{% if current_lang == 'zh' %}zh_CN{% else %}{{ current_lang }}_US{% endif %}" />
+	{% for lang in site.languages %}
+		{% if lang != current_lang %}
+			<meta property="og:locale:alternate" content="{% if lang == 'zh' %}zh_CN{% else %}{{ lang }}_US{% endif %}" />
+		{% endif %}
+	{% endfor %}
+
+	<!-- Twitter Card Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@{{ site.twitter_username }}" />
+	<meta name="twitter:title" content="{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].name }}{% else %}{{ site.app_name }}{% endif %}" />
+	<meta name="twitter:description" content="{% if site.app_info[current_lang] %}{{ site.app_info[current_lang].description }}{% else %}{{ site.app_description }}{% endif %}" />
+	<meta name="twitter:image" content="{{ site.url }}/{{ site.app_icon }}" />
+	
+	<!-- Google Search Console Verification -->
+	{% if site.google_site_verification %}
+		<meta name="google-site-verification" content="{{ site.google_site_verification }}" />
+	{% endif %}
+	
+	<!-- Bing Webmaster Tools -->
+	{% if site.bing_site_verification %}
+		<meta name="msvalidate.01" content="{{ site.bing_site_verification }}" />
+	{% endif %}
+	
+	<!-- Baidu Site Verification (for Chinese SEO) -->
+	{% if site.baidu_site_verification %}
+		<meta name="baidu-site-verification" content="{{ site.baidu_site_verification }}" />
+	{% endif %}
+	
+	<!-- Google Analytics -->
+	{% if site.google_analytics %}
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', '{{ site.google_analytics }}');
+		</script>
+	{% endif %}
 </head>

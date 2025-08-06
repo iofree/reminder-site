@@ -2,6 +2,22 @@
 .sass-cache
 _site
 Gemfile.lock
+.jekyll-cache
+.jekyll-metadata
 
 .idea/
 .env
+
+.vscode/
+node_modules/
+
+# 优化文件
+assets-compressed/
+*.backup
+
+# 开发文件
+_config_dev.yml
+
+.kiro/
+
+.DS_Store

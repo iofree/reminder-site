@@ -30,7 +30,18 @@ $feature-icons-background-color: {{ site.feature_icons_background_color }};
 $social-icons-foreground-color: {{ site.social_icons_foreground_color }};
 $social-icons-background-color: {{ site.social_icons_background_color }};
 
+// Language switcher CSS custom properties
+:root {
+  --language-switcher-blur: 20px;
+  --language-switcher-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --language-switcher-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --language-switcher-border-radius: 12px;
+  --language-switcher-mobile-border-radius: 8px;
+}
+
 @import 
     "base",
     "layout",
-    "github-markdown"
+    "github-markdown",
+    "language-switcher-fallback",
+    "seo"

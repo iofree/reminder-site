@@ -1,0 +1,15 @@
+{% comment %}
+Get APK download link based on current language
+Sets apk_link_value variable for use in templates
+{% endcomment %}
+
+<!-- Get current language -->
+{% assign link_lang = page.lang | default: site.default_language %}
+
+<!-- Try to get language-specific APK link -->
+{% assign apk_link_value = site.apk_links[link_lang] %}
+
+<!-- Fallback to default APK link -->
+{% unless apk_link_value %}
+  {% assign apk_link_value = site.apk_link %}
+{% endunless %}

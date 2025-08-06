@@ -1,0 +1,36 @@
+<!-- Get page content with fallback mechanism -->
+<!-- Parameters: page_name, content_key, lang (optional) -->
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign content_lang = include.lang | default: current_lang %}
+{% assign page_name = include.page_name %}
+{% assign content_key = include.content_key %}
+
+<!-- Split content_key by dots to handle nested keys -->
+{% assign key_parts = content_key | split: "." %}
+
+<!-- Get page data -->
+{% assign page_data = site.data.pages[content_lang].pages[page_name] %}
+
+<!-- Navigate through nested keys -->
+{% assign page_content_value = page_data %}
+{% for key_part in key_parts %}
+  {% if page_content_value %}
+    {% assign page_content_value = page_content_value[key_part] %}
+  {% endif %}
+{% endfor %}
+
+<!-- Fallback to default language if content not found -->
+{% unless page_content_value %}
+  {% assign fallback_page_data = site.data.pages[site.default_language].pages[page_name] %}
+  {% assign page_content_value = fallback_page_data %}
+  {% for key_part in key_parts %}
+    {% if page_content_value %}
+      {% assign page_content_value = page_content_value[key_part] %}
+    {% endif %}
+  {% endfor %}
+{% endunless %}
+
+<!-- Final fallback to content key if no content found -->
+{% unless page_content_value %}
+  {% assign page_content_value = content_key %}
+{% endunless %}

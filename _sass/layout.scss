@@ -18,12 +18,18 @@
 .headerBackground {
 	height: 115px;
 	background-color: rgba($header-color, $header-transparency);
+	overflow: visible;
 }
 
 @media only screen and (max-width: 768px) {
 
 	.headerBackground {
-		height: 80px;
+		height: 70px;
+		overflow: visible;
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding-top: 5px;
 	}
 
 }
@@ -46,6 +52,7 @@
 		"p p p p p i i i i i i i"
 		"c c c c c c c c c c c c"
 		"f f f f f f f f f f f f";
+	overflow: visible;
 }
 
 .subPageContainer {
@@ -56,7 +63,49 @@
 @media only screen and (max-width: 768px) {
 
 	.container {					// Set up the container for the site content
-		grid-template-rows: 80px 811px auto auto;
+		grid-template-rows: 70px 811px auto auto;
+	}
+}
+
+/* 大屏PC端优化 */
+@media only screen and (min-width: 1200px) {
+	.container {
+		max-width: 1200px;
+	}
+	
+	header {
+		padding: 0 30px;
+	}
+	
+	.logo {
+		margin-right: 50px;
+	}
+	
+	.language-switcher {
+		margin-left: 40px;
+	}
+}
+
+/* 超大屏幕优化 */
+@media only screen and (min-width: 1440px) {
+	.container {
+		max-width: 1400px;
+	}
+	
+	header {
+		padding: 0 40px;
+	}
+	
+	.logo {
+		margin-right: 60px;
+	}
+	
+	nav > ul {
+		gap: 40px;
+	}
+	
+	.language-switcher {
+		margin-left: 50px;
 	}
 }
 
@@ -94,7 +143,12 @@
 header {
 	grid-area: h;
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	margin-right: -15px;
+	overflow: visible;
+	position: relative;
+	z-index: 100;
 }
 
 .logo {
@@ -103,6 +157,7 @@ header {
 	align-items: center;
 	height: 115px;
 	margin-right: 30px;
+	flex-shrink: 0;
 }
 
 .logo > p {
@@ -116,8 +171,13 @@ header {
 @media only screen and (max-width: 768px) {
 
 	.logo {
-		height: 80px;
+		height: 70px;
 		margin-right: 0px;
+		padding-left: 15px;
+		padding-top: 10px;
+		flex-shrink: 0;
+		overflow: visible;
+		align-items: flex-start;
 	}
 
 	.logo > p {
@@ -129,8 +189,19 @@ header {
 .headerIcon {
 	width: 50px;
 	height: 50px;
-	-webkit-clip-path: url(#shape);
-	clip-path: url(#shape);
+	border-radius: 12px;
+	transition: transform 0.2s ease;
+	object-fit: cover;
+	display: block;
+}
+
+@media only screen and (max-width: 768px) {
+	.headerIcon {
+		width: 35px;
+		height: 35px;
+		flex-shrink: 0;
+		border-radius: 8px;
+	}
 }
 
 @media only screen and (max-width: 768px) {
@@ -150,16 +221,13 @@ header {
 // Navigation Links
 .scroll {
 	display: flex;
-	width: 100%;
 	align-items: center;
 	justify-content: flex-end;
-
 	height: 115px;
-	//margin-left: 15px;
-
+	flex-shrink: 0;
 	white-space: nowrap;
 	overflow-x: auto;
-	overflow-y: hidden;
+	overflow-y: visible;
 	-webkit-overflow-scrolling: touch;
 	-ms-overflow-style: -ms-autohiding-scrollbar;
 }
@@ -167,11 +235,14 @@ header {
 @media only screen and (max-width: 768px) {
 
 	.scroll {
-		height: 80px;
-		padding-top: 100px;
-		padding-bottom: 100px;
-		margin-top: -60px;
-		justify-content: flex-start;
+		height: 70px;
+		padding: 0;
+		margin: 0;
+		justify-content: flex-end;
+		align-items: flex-start;
+		flex: 1;
+		padding-right: 20px;
+		padding-top: 10px;
 	}	
 	
 } 
@@ -185,17 +256,80 @@ nav > ul {
 	color: #fff;
 	display: flex;
 	list-style-type: none;
-
+	align-items: center;
 }
 
 nav > ul li {
 	padding-left: 30px;
 }
 
+/* PC端导航菜单优化 */
+@media only screen and (min-width: 769px) {
+	nav {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+}
+
 @media only screen and (max-width: 768px) {
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 12px;
+		position: relative;
+	}
+
+	nav > ul {
+		position: fixed;
+		top: 70px;
+		left: 0;
+		right: 0;
+		background: rgba($header-color, 0.98);
+		backdrop-filter: blur(25px);
+		-webkit-backdrop-filter: blur(25px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		flex-direction: column;
+		padding: 20px 0;
+		margin: 0;
+		transform: translateY(-100%);
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		z-index: 9998;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+	}
+
+	nav > ul.show {
+		transform: translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
 
 	nav > ul li {
-		padding-left: 20px;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		text-align: center;
+	}
+
+	nav > ul li a {
+		display: block;
+		padding: 15px 30px;
+		font-size: 1.1em;
+		font-weight: 500;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+		transition: all 0.2s ease;
+	}
+
+	nav > ul li:last-child a {
+		border-bottom: none;
+	}
+
+	nav > ul li a:hover {
+		background: rgba(255, 255, 255, 0.08);
+		color: rgba($header-title-color, 1);
 	}
 
 }
@@ -213,6 +347,7 @@ nav > ul li a:link,
 nav > ul li a:visited {
 	text-decoration: none;
 	color: rgba($header-title-color, 0.6);
+	transition: color 0.3s ease;
 }
 
 nav > ul li a:hover,
@@ -221,7 +356,457 @@ nav > ul li a:active {
 	color: rgba($header-title-color, 1);
 }
 
+/* PC端导航链接优化 */
+@media only screen and (min-width: 769px) {
+	nav > ul li a {
+		font-weight: 500;
+		padding: 8px 0;
+		position: relative;
+	}
+	
+	nav > ul li a:hover {
+		transform: translateY(-1px);
+	}
+}
 
+// Mobile Menu Button
+.mobile-menu-button {
+	display: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 8px;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+	z-index: 9999;
+}
+
+.mobile-menu-button:hover {
+	background: rgba($header-title-color, 0.1);
+}
+
+.hamburger {
+	width: 24px;
+	height: 18px;
+	position: relative;
+	transform: rotate(0deg);
+	transition: 0.3s ease-in-out;
+}
+
+.hamburger span {
+	display: block;
+	position: absolute;
+	height: 2px;
+	width: 100%;
+	background: rgba($header-title-color, 0.8);
+	border-radius: 2px;
+	opacity: 1;
+	left: 0;
+	transform: rotate(0deg);
+	transition: 0.25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+	top: 0px;
+}
+
+.hamburger span:nth-child(2) {
+	top: 8px;
+}
+
+.hamburger span:nth-child(3) {
+	top: 16px;
+}
+
+.mobile-menu-button.active .hamburger span:nth-child(1) {
+	top: 8px;
+	transform: rotate(135deg);
+}
+
+.mobile-menu-button.active .hamburger span:nth-child(2) {
+	opacity: 0;
+	left: -60px;
+}
+
+.mobile-menu-button.active .hamburger span:nth-child(3) {
+	top: 8px;
+	transform: rotate(-135deg);
+}
+
+@media only screen and (max-width: 768px) {
+	.mobile-menu-button {
+		display: block;
+		order: 2;
+	}
+}
+
+// Language Switcher Styles
+.language-switcher {
+	display: flex;
+	align-items: center;
+	margin-left: 30px;
+	position: relative;
+	z-index: 1000;
+	flex-shrink: 0;
+}
+
+/* Desktop: language switcher after menu items */
+@media only screen and (min-width: 769px) {
+	.language-switcher {
+		order: 3;
+	}
+	
+	/* PC端头部优化 */
+	header {
+		padding: 0 15px;
+	}
+	
+	.logo {
+		min-width: fit-content;
+	}
+	
+	.logo > p {
+		font-size: 1.2em;
+		font-weight: 600;
+	}
+	
+	nav > ul {
+		gap: 30px;
+	}
+	
+	nav > ul li {
+		padding-left: 0;
+	}
+	
+	nav > ul li:first-child {
+		padding-left: 0;
+	}
+	
+	nav > ul li:last-child {
+		padding-right: 0;
+	}
+	
+	/* 确保右侧元素紧密排列 */
+	.scroll {
+		gap: 0;
+	}
+}
+
+.language-dropdown {
+	position: relative;
+}
+
+.language-button {
+	background: rgba($header-title-color, 0.08);
+	border: 1px solid rgba($header-title-color, 0.15);
+	color: rgba($header-title-color, 0.8);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	font-size: inherit;
+	font-family: inherit;
+	padding: 10px 16px;
+	border-radius: 8px;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	font-weight: 500;
+	letter-spacing: 0.02em;
+}
+
+.language-button:hover {
+	color: rgba($header-title-color, 1);
+	background: rgba($header-title-color, 0.12);
+	border-color: rgba($header-title-color, 0.25);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba($header-title-color, 0.15);
+}
+
+.language-button:active {
+	transform: translateY(0);
+	box-shadow: 0 2px 6px rgba($header-title-color, 0.1);
+}
+
+.current-language {
+	margin-right: 8px;
+	white-space: nowrap;
+	font-weight: 500;
+}
+
+.language-arrow {
+	font-size: 0.75em;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	opacity: 0.8;
+}
+
+.language-dropdown.show .language-arrow {
+	transform: rotate(180deg);
+	opacity: 1;
+}
+
+.language-options {
+	position: fixed;
+	top: auto;
+	right: auto;
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+	min-width: 140px;
+	z-index: 99999;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-12px) scale(0.95);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	overflow: hidden;
+}
+
+.language-options.show {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0) scale(1);
+}
+
+.language-option {
+	display: block;
+	padding: 12px 18px;
+	color: #333;
+	text-decoration: none;
+	transition: all 0.2s ease;
+	white-space: nowrap;
+	font-weight: 500;
+	position: relative;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.language-option:last-child {
+	border-bottom: none;
+}
+
+.language-option:hover {
+	background: rgba($accent-color, 0.08);
+	color: $accent-color;
+	transform: translateX(2px);
+}
+
+.language-option:active {
+	background: rgba($accent-color, 0.12);
+	transform: translateX(0);
+}
+
+@media only screen and (max-width: 768px) {
+	.language-switcher {
+		margin: 0;
+		margin-right: 8px;
+		z-index: 9999;
+		flex-shrink: 0;
+		order: 1;
+	}
+	
+	.language-button {
+		padding: 8px 14px;
+		font-size: 0.9em;
+		border-radius: 20px;
+		min-width: 70px;
+		white-space: nowrap;
+		background: rgba($header-title-color, 0.12);
+		border: 1px solid rgba($header-title-color, 0.2);
+		backdrop-filter: blur(15px);
+		-webkit-backdrop-filter: blur(15px);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+	
+	.language-button:hover {
+		background: rgba($header-title-color, 0.18);
+		border-color: rgba($header-title-color, 0.3);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
+	
+	.current-language {
+		margin-right: 8px;
+		font-size: 0.9em;
+		font-weight: 600;
+	}
+	
+	.language-arrow {
+		font-size: 0.75em;
+		opacity: 0.8;
+	}
+	
+	.language-options {
+		border-radius: 12px;
+		min-width: 120px;
+		z-index: 99999;
+		right: 0;
+		left: auto;
+		background: rgba(255, 255, 255, 0.98);
+		backdrop-filter: blur(25px);
+		-webkit-backdrop-filter: blur(25px);
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+	}
+	
+	.language-option {
+		padding: 12px 16px;
+		font-size: 0.9em;
+		font-weight: 500;
+		border-radius: 8px;
+		margin: 4px 8px;
+	}
+	
+	.language-option:hover {
+		background: rgba($accent-color, 0.1);
+		transform: translateX(0);
+	}
+}
+
+
+
+// Ensure language dropdown is never clipped
+.imageWrapper,
+.headerBackground,
+.subPageHeaderBackground {
+	overflow: visible !important;
+}
+
+// Mobile menu overlay
+@media only screen and (max-width: 768px) {
+	.mobile-menu-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s ease;
+		z-index: 9997;
+	}
+	
+	.mobile-menu-overlay.show {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+// Additional mobile-specific fixes
+@media only screen and (max-width: 480px) {
+	.headerBackground {
+		height: 65px;
+	}
+	
+	.container {
+		grid-template-rows: 65px 811px auto auto;
+	}
+	
+	.logo {
+		height: 65px;
+		padding-left: 15px;
+		padding-top: 8px;
+		overflow: visible;
+	}
+	
+	.headerIcon {
+		width: 30px;
+		height: 30px;
+		margin: 3px;
+		flex-shrink: 0;
+		border-radius: 6px;
+	}
+	
+	.scroll {
+		height: 65px;
+		padding-right: 15px;
+	}
+	
+	.language-switcher {
+		margin-right: 6px;
+	}
+	
+	.language-button {
+		padding: 6px 10px;
+		font-size: 0.85em;
+		min-width: 60px;
+		border-radius: 16px;
+	}
+	
+	.current-language {
+		margin-right: 6px;
+		font-size: 0.85em;
+	}
+	
+	.language-options {
+		min-width: 100px;
+		font-size: 0.85em;
+	}
+	
+	.language-option {
+		padding: 10px 12px;
+		font-size: 0.85em;
+	}
+	
+	.mobile-menu-button {
+		padding: 6px;
+	}
+	
+	.hamburger {
+		width: 20px;
+		height: 16px;
+	}
+	
+	nav > ul {
+		top: 65px;
+		padding: 15px 0;
+	}
+	
+	nav > ul li a {
+		padding: 12px 25px;
+		font-size: 1em;
+	}
+}
+
+// Smooth animations for mobile interactions
+@media only screen and (max-width: 768px) {
+	.headerIcon:active {
+		transform: scale(0.95);
+	}
+	
+	.language-button:active {
+		transform: translateY(0) scale(0.98);
+	}
+	
+	.mobile-menu-button:active {
+		transform: scale(0.95);
+	}
+}
+
+// Ensure proper stacking context
+.scroll {
+	position: relative;
+	z-index: 100;
+}
+
+// Dark mode support for mobile menu
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+	nav > ul {
+		background: rgba(30, 30, 30, 0.98);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+	
+	nav > ul li a {
+		color: rgba(255, 255, 255, 0.9);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	}
+	
+	nav > ul li a:hover {
+		background: rgba(255, 255, 255, 0.1);
+		color: rgba(255, 255, 255, 1);
+	}
+}
 
 // Sub Page Header Styling
 .subPageHeaderBackground .logo > p {
@@ -236,6 +821,44 @@ nav > ul li a:active {
 .subPageHeaderBackground nav > ul li a:hover,
 .subPageHeaderBackground nav > ul li a:active {
 	color: rgba(#000, 1);
+}
+
+.subPageHeaderBackground .language-button {
+	color: rgba(#000, 0.8);
+	background: rgba(#000, 0.05);
+	border-color: rgba(#000, 0.1);
+}
+
+.subPageHeaderBackground .language-button:hover {
+	color: rgba(#000, 1);
+	background: rgba(#000, 0.08);
+	border-color: rgba(#000, 0.2);
+	box-shadow: 0 4px 12px rgba(#000, 0.1);
+}
+
+.subPageHeaderBackground .mobile-menu-button .hamburger span {
+	background: rgba(#000, 0.8);
+}
+
+.subPageHeaderBackground .mobile-menu-button:hover {
+	background: rgba(#000, 0.05);
+}
+
+@media only screen and (max-width: 768px) {
+	.subPageHeaderBackground nav > ul {
+		background: rgba(#fff, 0.98);
+		border-bottom: 1px solid rgba(#000, 0.1);
+	}
+	
+	.subPageHeaderBackground nav > ul li a {
+		color: rgba(#000, 0.8);
+		border-bottom: 1px solid rgba(#000, 0.05);
+	}
+	
+	.subPageHeaderBackground nav > ul li a:hover {
+		background: rgba(#000, 0.05);
+		color: rgba(#000, 1);
+	}
 }
 
 
@@ -262,6 +885,16 @@ nav > ul li a:active {
 .appIconShadow {
 	display: flex;
 	filter: $drop-shadow;
+	align-items: center;
+	justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+	.appIconShadow {
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: flex-start;
+	}
 }
 
 .appIconLarge {
@@ -352,9 +985,19 @@ nav > ul li a:active {
 	margin-right: 24px;
 }
 
+.apkDownload {
+	height: 75px;
+	margin-right: 24px;
+}
+
 @media only screen and (max-width: 992px) {
 
 	.playStore {
+		margin-right: 24px;
+		margin-bottom: 0px;
+	}
+	
+	.apkDownload {
 		margin-right: 24px;
 		margin-bottom: 0px;
 	}
@@ -368,11 +1011,18 @@ nav > ul li a:active {
 		margin-bottom: 24px;
 	}
 	
+	.apkDownload {
+		margin-right: 0px;
+		margin-bottom: 24px;
+	}
+	
 } 
 
 .appStore {
 	height: 75px;
 }
+
+
 
 
 
@@ -684,4 +1334,79 @@ footer {
 
 .hidden {
 	display: none;
+}/* P
+erformance optimizations */
+.mobile-menu-button,
+.language-button,
+.language-option {
+  will-change: transform;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu-button,
+  .language-button,
+  .language-option,
+  .hamburger span,
+  nav > ul {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .mobile-menu-button:hover,
+  .language-button:hover,
+  .language-option:hover {
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .mobile-menu-button {
+    border: 2px solid currentColor;
+  }
+  
+  .hamburger span {
+    background: currentColor;
+    height: 3px;
+  }
+  
+  .language-button {
+    border: 2px solid currentColor;
+  }
+  
+  nav > ul {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Focus visible support for better keyboard navigation */
+.mobile-menu-button:focus-visible,
+.language-button:focus-visible {
+  outline: 3px solid rgba(29, 99, 234, 0.6);
+  outline-offset: 2px;
+}
+
+nav > ul li a:focus-visible {
+  outline: 2px solid rgba(29, 99, 234, 0.6);
+  outline-offset: 2px;
+}
+
+/* Prevent text selection on interactive elements */
+.mobile-menu-button,
+.language-button,
+.hamburger {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Safe area support for mobile menu button */
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    .mobile-menu-button {
+      margin-right: max(0px, env(safe-area-inset-right));
+    }
+  }
 }

@@ -1,0 +1,69 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage for each language -->
+  {% for lang in site.languages %}
+    <url>
+      {% if lang == site.default_language %}
+        <loc>{{ site.url }}/</loc>
+      {% else %}
+        <loc>{{ site.url }}/{{ lang }}/</loc>
+      {% endif %}
+      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+      <!-- Hreflang alternates -->
+      {% for alt_lang in site.languages %}
+        {% if alt_lang == site.default_language %}
+          <xhtml:link rel="alternate" hreflang="{{ alt_lang }}" href="{{ site.url }}/" />
+        {% else %}
+          <xhtml:link rel="alternate" hreflang="{{ alt_lang }}" href="{{ site.url }}/{{ alt_lang }}/" />
+        {% endif %}
+      {% endfor %}
+      <xhtml:link rel="alternate" hreflang="x-default" href="{{ site.url }}/" />
+    </url>
+  {% endfor %}
+
+  <!-- Pages for each language -->
+  {% for page in site.pages %}
+    {% if page.sitemap != false and page.url != '/404.html' %}
+      {% assign page_lang = page.lang | default: site.default_language %}
+      
+      <url>
+        <loc>{{ site.url }}{{ page.url }}</loc>
+        {% if page.last_modified_at %}
+          <lastmod>{{ page.last_modified_at | date_to_xmlschema }}</lastmod>
+        {% else %}
+          <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+        {% endif %}
+        {% if page.url contains 'help' or page.url contains 'privacy' or page.url contains 'terms' %}
+          <changefreq>monthly</changefreq>
+          <priority>0.6</priority>
+        {% else %}
+          <changefreq>weekly</changefreq>
+          <priority>0.8</priority>
+        {% endif %}
+        
+        <!-- Hreflang alternates for pages -->
+        {% assign base_path = page.url %}
+        {% if page_lang != site.default_language %}
+          {% assign base_path = page.url | remove_first: '/' | remove_first: page_lang %}
+          {% if base_path == '' %}
+            {% assign base_path = '/' %}
+          {% endif %}
+        {% endif %}
+        
+        {% for alt_lang in site.languages %}
+          {% if alt_lang == site.default_language %}
+            <xhtml:link rel="alternate" hreflang="{{ alt_lang }}" href="{{ site.url }}{{ base_path }}" />
+          {% else %}
+            <xhtml:link rel="alternate" hreflang="{{ alt_lang }}" href="{{ site.url }}/{{ alt_lang }}{{ base_path }}" />
+          {% endif %}
+        {% endfor %}
+        <xhtml:link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ base_path }}" />
+      </url>
+    {% endif %}
+  {% endfor %}
+</urlset>

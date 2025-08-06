@@ -1,0 +1,12 @@
+<!-- Get App Store link with fallback mechanism -->
+<!-- Parameters: lang (optional) -->
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign link_lang = include.lang | default: current_lang %}
+
+<!-- Try to get language-specific App Store link -->
+{% assign appstore_link_value = site.appstore_links[link_lang] %}
+
+<!-- Fallback to default App Store link -->
+{% unless appstore_link_value %}
+  {% assign appstore_link_value = site.appstore_link %}
+{% endunless %}

@@ -1,0 +1,121 @@
+<!-- Translation Helper Functions -->
+<!-- This file provides centralized translation functions for the multilingual site -->
+
+<!-- Set current language -->
+{% assign current_language = page.lang | default: site.default_language %}
+
+<!-- Get translation with fallback -->
+{% if include.key %}
+  {% assign translation_lang = include.lang | default: current_language %}
+  {% assign translation_key = include.key %}
+  
+  <!-- Try to get translation from main translations file -->
+  {% assign translated_value = site.data.translations[translation_lang][translation_key] %}
+  
+  <!-- Fallback to default language if translation not found -->
+  {% unless translated_value %}
+    {% assign translated_value = site.data.translations[site.default_language][translation_key] %}
+  {% endunless %}
+  
+  <!-- Final fallback to key name if no translation found -->
+  {% unless translated_value %}
+    {% assign translated_value = translation_key %}
+  {% endunless %}
+{% endif %}
+
+<!-- Get page content with fallback -->
+{% if include.page_name and include.content_key %}
+  {% assign content_lang = include.lang | default: current_language %}
+  {% assign page_name = include.page_name %}
+  {% assign content_key = include.content_key %}
+  
+  <!-- Split content_key by dots to handle nested keys -->
+  {% assign key_parts = content_key | split: "." %}
+  
+  <!-- Get page data -->
+  {% assign page_data = site.data.pages[content_lang].pages[page_name] %}
+  
+  <!-- Navigate through nested keys -->
+  {% assign page_content_value = page_data %}
+  {% for key_part in key_parts %}
+    {% if page_content_value %}
+      {% assign page_content_value = page_content_value[key_part] %}
+    {% endif %}
+  {% endfor %}
+  
+  <!-- Fallback to default language if content not found -->
+  {% unless page_content_value %}
+    {% assign fallback_page_data = site.data.pages[site.default_language].pages[page_name] %}
+    {% assign page_content_value = fallback_page_data %}
+    {% for key_part in key_parts %}
+      {% if page_content_value %}
+        {% assign page_content_value = page_content_value[key_part] %}
+      {% endif %}
+    {% endfor %}
+  {% endunless %}
+  
+  <!-- Final fallback to content key if no content found -->
+  {% unless page_content_value %}
+    {% assign page_content_value = content_key %}
+  {% endunless %}
+{% endif %}
+
+<!-- Get app info with fallback -->
+{% if include.info_key %}
+  {% assign info_lang = include.lang | default: current_language %}
+  {% assign info_key = include.info_key %}
+  
+  <!-- Try to get app info from multilingual config -->
+  {% assign app_info_value = site.app_info[info_lang][info_key] %}
+  
+  <!-- Fallback to default language app info -->
+  {% unless app_info_value %}
+    {% assign app_info_value = site.app_info[site.default_language][info_key] %}
+  {% endunless %}
+  
+  <!-- Fallback to legacy site config -->
+  {% unless app_info_value %}
+    {% case info_key %}
+      {% when "name" %}
+        {% assign app_info_value = site.app_name %}
+      {% when "description" %}
+        {% assign app_info_value = site.app_description %}
+      {% when "price" %}
+        {% assign app_info_value = site.app_price %}
+    {% endcase %}
+  {% endunless %}
+  
+  <!-- Final fallback to info key if no value found -->
+  {% unless app_info_value %}
+    {% assign app_info_value = info_key %}
+  {% endunless %}
+{% endif %}
+
+<!-- Get features with fallback -->
+{% unless include.key or include.page_name or include.info_key %}
+  {% assign features_lang = include.lang | default: current_language %}
+  
+  <!-- Try to get features from language-specific data file -->
+  {% assign localized_features = site.data.features[features_lang].features %}
+  
+  <!-- Fallback to default language features -->
+  {% unless localized_features %}
+    {% assign localized_features = site.data.features[site.default_language].features %}
+  {% endunless %}
+  
+  <!-- Final fallback to site.features (legacy) -->
+  {% unless localized_features %}
+    {% assign localized_features = site.features %}
+  {% endunless %}
+  
+  <!-- Get App Store link with fallback -->
+  {% assign link_lang = include.lang | default: current_language %}
+  
+  <!-- Try to get language-specific App Store link -->
+  {% assign appstore_link_value = site.appstore_links[link_lang] %}
+  
+  <!-- Fallback to default App Store link -->
+  {% unless appstore_link_value %}
+    {% assign appstore_link_value = site.appstore_link %}
+  {% endunless %}
+{% endunless %}

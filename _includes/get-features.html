@@ -1,0 +1,17 @@
+<!-- Get features with fallback mechanism -->
+<!-- Parameters: lang (optional) -->
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign features_lang = include.lang | default: current_lang %}
+
+<!-- Try to get features from language-specific data file -->
+{% assign localized_features = site.data.features[features_lang].features %}
+
+<!-- Fallback to default language features -->
+{% unless localized_features %}
+  {% assign localized_features = site.data.features[site.default_language].features %}
+{% endunless %}
+
+<!-- Final fallback to site.features (legacy) -->
+{% unless localized_features %}
+  {% assign localized_features = site.features %}
+{% endunless %}
