@@ -22,7 +22,7 @@
                     </video>
                 </div>
 
-                <img class="iphoneScreen hidden" src="" alt="">
+                <img class="iphoneScreen hidden" src="" alt="{% include get-app-info.html info_key='name' %}{{ app_info_value }} App Screenshot">
 
                 {% include screencontent.html %}
 
@@ -38,7 +38,7 @@
                             </clipPath>
                         </defs>
                     </svg>
-                    <img class="appIconLarge" src="{{ site.picture_CDN }}/{{ site.app_icon }}">
+                    <img class="appIconLarge" src="{{ site.picture_CDN }}/{{ site.app_icon }}" alt="{% include get-app-info.html info_key='name' %}{{ app_info_value }} App Icon">
                 </div>
                 <div class="appNamePriceContainer">
                     <h1 class="appName">
@@ -59,7 +59,7 @@
                 <div class="downloadButtonsContainer">
                     {% if site.playstore_link %}
                     <a class="playStoreLink" href="{{site.playstore_link}}"><img class="playStore"
-                                                                                 src="{{ site.picture_CDN }}/assets/playstore.png"></a>
+                                                                                 src="{{ site.picture_CDN }}/assets/playstore.png" alt="Get it on Google Play"></a>
                     {% endif %}
                     {% include get-apk-link.html %}
                     {% if apk_link_value and apk_link_value != "" %}
@@ -70,11 +70,11 @@
                         {% assign apk_svg = 'assets/apk-download.svg' %}
                     {% endif %}
                     <a class="apkLink" href="{{ apk_link_value }}" title="{{ site.data.translations[current_lang].download_apk }}"><img class="apkDownload"
-                                                                                 src="{{ site.picture_CDN }}/{{ apk_svg }}"></a>
+                                                                                 src="{{ site.picture_CDN }}/{{ apk_svg }}" alt="{{ site.data.translations[current_lang].download_apk }}"></a>
                     {% endif %}
                     {% include get-appstore-link.html %}
                     <a class="appStoreLink" href="{{ appstore_link_value }}"><img class="appStore"
-                                                                               src="{{ site.picture_CDN }}/assets/appstore.png"></a>
+                                                                               src="{{ site.picture_CDN }}/assets/appstore.png" alt="Download on the App Store"></a>
                 </div>
             </div>
             {% include features.html %}

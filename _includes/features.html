@@ -29,7 +29,7 @@
     <div class="images">
         {% for i in site.img %}
         {% if i.url %}
-        <img src="{{ site.picture_CDN }}/{{i.url}}" alt="" width="300px">
+        <img src="{{ site.picture_CDN }}/{{i.url}}" alt="{% include get-app-info.html info_key='name' %}{{ app_info_value }} Screenshot {{ forloop.index }}" width="300px">
         {% endif %}
         {% endfor %}
     </div>
